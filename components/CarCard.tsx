@@ -38,7 +38,7 @@ export const CarCard = ({
   retailerId,
   priceCOP,
   priceUSD,
-  stars
+  stars,
 }: CarType) => {
   const imageAddress = thumb?.split("/").at(-1);
 
@@ -76,8 +76,7 @@ export const CarCard = ({
   const retailerLogo =
     retailerId === 1 ? avisLogo : retailerId === 2 ? budgerLogo : paylessLogo;
 
-  const filledStars = new Array(5).fill('');
-
+  const filledStars = new Array(5).fill("");
 
   return (
     <div className="flex bg-white shadow-lg rounded-2xl gap-9 border-l-4 h-[268px] border-[#3179BD]  px-5 w-full">
@@ -85,16 +84,15 @@ export const CarCard = ({
         <div className="flex flex-col gap-[10px]">
           <Image src={retailerLogo} alt="logo" />
           <div className="flex gap-1 items-center">
-           {
-           filledStars.map((star,idx) => {
-            if(idx+1 <= stars){
-              return (<Image alt="star" key={idx} src={starSolid} alt="star" />)
-            }else{
-              return (<Image alt="star" key={idx} src={emptyStar} alt="empty star" />)
-            }
-           })
-            
-            }
+            {filledStars.map((star, idx) => {
+              return (
+                <Image
+                  alt="star"
+                  key={idx}
+                  src={idx + 1 <= stars ? starSolid : starEmpty}
+                />
+              );
+            })}
           </div>
         </div>
 
