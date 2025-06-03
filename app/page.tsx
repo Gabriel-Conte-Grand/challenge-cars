@@ -49,11 +49,11 @@ export default function Home() {
                   features={car.features}
                   retailerId={car.brand}
                   priceCOP={
-                    car.rates.F2?.pricing.COP.total_charge.total
+                    car.rates?.F2?.pricing.COP.total_charge.total
                       .estimated_total_amount
                   }
                   priceUSD={
-                    car.rates.F2?.pricing.USD.total_charge.total
+                    car.rates?.F2?.pricing.USD.total_charge.total
                       .estimated_total_amount
                   }
                 />
