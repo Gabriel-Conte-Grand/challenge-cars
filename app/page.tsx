@@ -42,6 +42,7 @@ export default function Home() {
               {filteredCars?.map((car, idx) => (
                 <CarCard
                   key={idx}
+                  stars={car.stars}
                   category={car.features.category}
                   name={car.name_details}
                   code={car.code}

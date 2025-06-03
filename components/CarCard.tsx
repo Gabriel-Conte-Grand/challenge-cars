@@ -20,6 +20,7 @@ type CarType = {
   retailerId: number;
   priceCOP: number;
   priceUSD: number;
+  stars: number;
 };
 
 type featuresIcons = {
@@ -37,6 +38,7 @@ export const CarCard = ({
   retailerId,
   priceCOP,
   priceUSD,
+  stars
 }: CarType) => {
   const imageAddress = thumb?.split("/").at(-1);
 
@@ -74,17 +76,25 @@ export const CarCard = ({
   const retailerLogo =
     retailerId === 1 ? avisLogo : retailerId === 2 ? budgerLogo : paylessLogo;
 
+  const filledStars = new Array(5).fill('');
+
+
   return (
     <div className="flex bg-white shadow-lg rounded-2xl gap-9 border-l-4 h-[268px] border-[#3179BD]  px-5 w-full">
       <div className="flex flex-col py-6  ">
         <div className="flex flex-col gap-[10px]">
           <Image src={retailerLogo} alt="logo" />
           <div className="flex gap-1 items-center">
-            <Image src={starSolid} alt="star" />
-            <Image src={starSolid} alt="star" />
-            <Image src={starSolid} alt="star" />
-            <Image src={starSolid} alt="star" />
-            <Image src={emptyStar} alt="empty star" />
+           {
+           filledStars.map((star,idx) => {
+            if(idx+1 <= stars){
+              return (<Image key={idx} src={starSolid} alt="star" />)
+            }else{
+              return (<Image key={idx} src={emptyStar} alt="empty star" />)
+            }
+           })
+            
+            }
           </div>
         </div>
 
