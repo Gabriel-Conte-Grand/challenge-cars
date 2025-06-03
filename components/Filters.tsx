@@ -4,55 +4,92 @@ import React, { FC, useState } from "react";
 import filterIcon from "../public/icons_logos/filter-icon.svg";
 import chevronRight from "../public/icons_logos/chevron-icon.svg";
 import { Range } from "react-range";
+import { useCarStore } from "@/store/cars";
+import { FilterSection } from "./FilterSection";
+import { useEffect } from "react";
 
-type Filter = {
+export type Filter = {
   filterName: string;
-  optionsType: "checkbox" | "radio";
-  filterOptions: string[] | number[];
+  filterId: string;
+  optionsType: "checkbox";
+  filterOptions: FilterOption[];
+};
+
+export type FilterOption = {
+  name: string;
+  value: boolean;
+  code: string | number;
+};
+
+export type activeFilters = {
+  company: number[];
+  category: string[];
+  luggage: number[];
+  passangers: number[];
 };
 
 export const Filters: FC = () => {
   const filters: Filter[] = [
     {
       filterName: "Compañía rentadora",
+      filterId: "company",
       optionsType: "checkbox",
-      filterOptions: ["Avis", "Budget", "Payless"],
+      filterOptions: [
+        { name: "Avis", value: true, code: 1 },
+        { name: "Budget", value: true, code: 2 },
+        { name: "Payless", value: true, code: 3 },
+      ],
     },
     {
       filterName: "Categoría del auto",
+      filterId: "category",
       optionsType: "checkbox",
       filterOptions: [
-        "Todas las categorias",
-        "Económico",
-        "Compacto",
-        "Intermedio",
-        "Estándar",
-        "SUV",
+        // { name: "Todas las categorias", value: true },
+        { name: "Económico", value: false, code: "Económico" },
+        { name: "Compacto", value: false, code: "Compacto" },
+        { name: "Intermedio", value: false, code: "Intermedio" },
+        { name: "Estándar", value: false, code: "Estándar" },
+        { name: "SUV", value: false, code: "SUV" },
       ],
     },
     {
       filterName: "Capacidad de maletas",
+      filterId: "luggage",
       optionsType: "checkbox",
       filterOptions: [
-        "1 ó más maletas",
-        "2 ó más maletas",
-        "3 ó más maletas",
-        "4 ó más maletas",
+        { name: "1 ó más maletas", value: false, code: 1 },
+        { name: "2 ó más maletas", value: false, code: 2 },
+        { name: "3 ó más maletas", value: false, code: 3 },
+        { name: "4 ó más maletas", value: false, code: 4 },
       ],
     },
     {
       filterName: "Cantidad de pasajeros",
+      filterId: "passangers",
       optionsType: "checkbox",
       filterOptions: [
-        "4 pasajeros",
-        "5 pasajeros",
-        "7 pasajeros",
-        "12 pasajeros",
+        { name: "4 pasajeros", value: false, code: 4 },
+        { name: "5 pasajeros", value: false, code: 5 },
+        { name: "7 pasajeros", value: false, code: 7 },
+        { name: "12 pasajeros", value: false, code: 12 },
       ],
     },
   ];
 
+  const { applyFilters } = useCarStore();
+
   const [values, setValues] = useState([2000000, 7000000]);
+
+  const [activeFilters, setActiveFilters] = useState<activeFilters>({
+    company: [],
+    category: [],
+    luggage: [],
+    passangers: [],
+  });
+  useEffect(() => {
+    applyFilters(activeFilters);
+  }, [activeFilters, applyFilters]);
 
   return (
     <div className=" bg-white h-fit rounded-2xl text-[#3179BD] font-bold flex flex-col gap-6 pt-[30px] pb-6 w-80">
@@ -61,31 +98,12 @@ export const Filters: FC = () => {
         Filtrar resultados
       </div>
       {filters.map((filter) => (
-        <div
-          key={filter.filterName}
-          className="flex text-[14px] flex-col w-full "
-        >
-          <div className="font-bold j px-[30px] py-3 bg-[#F0F4FD] flex justify-between">
-            {filter.filterName}
-            <Image src={chevronRight} alt="to" className="rotate-90" />
-          </div>
-          <div className="mt-6 mx-6 text-[14px] text-[#242B35] font-normal flex flex-col gap-2 w-full">
-            {filter.filterOptions.map((option) => (
-              <div
-                key={option}
-                className="cursor-pointer flex justify-start gap-3 items-center "
-              >
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 rounded"
-                  checked={true}
-                  onChange={() => {}}
-                />
-                <label>{option}</label>
-              </div>
-            ))}
-          </div>
-        </div>
+        <FilterSection
+          key={filter.filterId}
+          filter={filter}
+          activeFilters={activeFilters}
+          setActiveFilters={setActiveFilters}
+        />
       ))}
       <div className="font-bold text-[14px] px-3 py-3 bg-[#F0F4FD] flex justify-between">
         Fijar un rango de precio (COP)
