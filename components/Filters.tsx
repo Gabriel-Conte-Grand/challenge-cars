@@ -8,11 +8,13 @@ import { useCarStore } from "@/store/cars";
 import { FilterSection } from "./FilterSection";
 import { useEffect } from "react";
 
+type FilterId = keyof activeFilters;
+
 export type Filter = {
   filterName: string;
-  filterId: string;
+  filterId: FilterId;
   optionsType: "checkbox";
-  filterOptions: FilterOption[];
+  filterOptions: { name: string; code: string | number; value: boolean }[];
 };
 
 export type FilterOption = {

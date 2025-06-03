@@ -6,7 +6,7 @@ import { Checkbox } from "./Checkbox";
 
 type Props = {
   filter: Filter;
-  setActiveFilters: React.Dispatch<activeFilters>;
+  setActiveFilters: React.Dispatch<React.SetStateAction<activeFilters>>;
   activeFilters: activeFilters;
 };
 
@@ -19,7 +19,6 @@ export const FilterSection = ({
     option: { name: string; code: string | number },
     isChecked: boolean
   ) => {
-    console.log("option", option);
     if (isChecked) {
       setActiveFilters((prev: activeFilters) => {
         return {
