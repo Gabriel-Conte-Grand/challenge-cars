@@ -7,7 +7,7 @@ import { CarCard } from "@/components/CarCard";
 import cars from "../carsJSON.json";
 import { SearchResults } from "@/components/SearchResults";
 import { useCarStore } from "@/store/cars";
-import { Car, CarData } from "@/types";
+import { CarData } from "@/types";
 import { useEffect } from "react";
 
 export default function Home() {
@@ -22,8 +22,6 @@ export default function Home() {
   useEffect(() => {
     loadCars(carsList);
   }, []);
-
-  console.log({carOne: carsList[0]})
 
   return (
     <div className="">
@@ -50,9 +48,14 @@ export default function Home() {
                   thumb={car.picture_url.normal || car.picture_url.featured}
                   features={car.features}
                   retailerId={car.brand}
-                  priceCOP={car.rates.F2?.pricing.COP.total_charge.total.estimated_total_amount}
-                  priceUSD={car.rates.F2?.pricing.USD.total_charge.total.estimated_total_amount}
-                
+                  priceCOP={
+                    car.rates.F2?.pricing.COP.total_charge.total
+                      .estimated_total_amount
+                  }
+                  priceUSD={
+                    car.rates.F2?.pricing.USD.total_charge.total
+                      .estimated_total_amount
+                  }
                 />
               ))}
             </div>
