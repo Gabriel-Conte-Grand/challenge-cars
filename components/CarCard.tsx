@@ -89,7 +89,7 @@ export const CarCard = ({
                 <Image
                   alt="star"
                   key={idx}
-                  src={idx + 1 <= stars ? starSolid : starEmpty}
+                  src={idx + 1 <= stars ? starSolid : emptyStar}
                 />
               );
             })}
