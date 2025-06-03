@@ -18,6 +18,8 @@ type CarType = {
   thumb: string | null;
   features: Features;
   retailerId: number;
+  priceCOP: number;
+  priceUSD: number;
 };
 
 type featuresIcons = {
@@ -33,6 +35,8 @@ export const CarCard = ({
   thumb,
   features,
   retailerId,
+  priceCOP,
+  priceUSD,
 }: CarType) => {
   const imageAddress = thumb?.split("/").at(-1);
 
@@ -143,7 +147,7 @@ export const CarCard = ({
         </div>
 
         <hr className="h-auto border my-1 border-dashed border-[#C8CED9]" />
-        <PricingCard />
+        <PricingCard priceCOP={priceCOP} priceUSD={priceUSD} />
       </div>
     </div>
   );

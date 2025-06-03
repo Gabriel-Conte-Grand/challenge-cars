@@ -3,7 +3,25 @@ import infoIcon from "../public/icons_logos/info-icon.svg";
 import arrowIcon from "../public/icons_logos/arrow-icon.svg";
 import Image from "next/image";
 
-export const PricingCard = () => {
+type Props = {
+  priceCOP: number;
+  priceUSD: number;
+};
+
+export const PricingCard = ({ priceCOP, priceUSD }: Props) => {
+  
+  
+const formattedCOP = new Intl.NumberFormat("es-CO", {
+  style: "currency",
+  currency: "COP",
+  maximumFractionDigits: 0, // si querés sin decimales
+}).format(priceCOP);
+
+const formattedUSD = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+}).format(priceUSD);
+
   return (
     <div className="relative my-5 bg-white rounded-xl text-center shadow-lg  p-4 w-[300px] mx-auto">
       <div className="text-center flex flex-col gap-2">
@@ -20,7 +38,7 @@ export const PricingCard = () => {
         </button>
 
         <div className="text-xl font-bold  text-[#3179BD]">
-          <span className="text-base">COP</span> 1,895.160
+          <span className="text-base">COP</span> {priceCOP}
         </div>
 
         <button className=" cursor-pointer hover:shadow-lg absolute right-[-28px] bg-white rounded-full shadow w-10 h-10 flex items-center justify-center">
@@ -28,7 +46,7 @@ export const PricingCard = () => {
         </button>
       </div>
       <div className=" w-full text-[#8292AA] text-sm  mx-auto">
-        (USD 1,299.72)
+        (USD {priceUSD})
       </div>
 
       <button className="mt-4 cursor-pointer hover:opacity-90  w-full bg-[#3179BD] font-bold text-white py-2 rounded-lg">
