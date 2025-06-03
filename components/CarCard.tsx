@@ -88,9 +88,9 @@ export const CarCard = ({
            {
            filledStars.map((star,idx) => {
             if(idx+1 <= stars){
-              return (<Image key={idx} src={starSolid} alt="star" />)
+              return (<Image alt="star" key={idx} src={starSolid} alt="star" />)
             }else{
-              return (<Image key={idx} src={emptyStar} alt="empty star" />)
+              return (<Image alt="star" key={idx} src={emptyStar} alt="empty star" />)
             }
            })
             

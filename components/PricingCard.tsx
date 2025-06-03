@@ -11,16 +11,16 @@ type Props = {
 export const PricingCard = ({ priceCOP, priceUSD }: Props) => {
   
   
-const formattedCOP = new Intl.NumberFormat("es-CO", {
-  style: "currency",
-  currency: "COP",
-  maximumFractionDigits: 0, // si querés sin decimales
-}).format(priceCOP);
+// const formattedCOP = Nan ? new Intl.NumberFormat("es-CO", {
+//   style: "currency",
+//   currency: "COP",
+//   maximumFractionDigits: 0, // si querés sin decimales
+// }).format(priceCOP);
 
-const formattedUSD = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-}).format(priceUSD);
+// const formattedUSD =  new Intl.NumberFormat("en-US", {
+//   style: "currency",
+//   currency: "USD",
+// }).format(priceUSD);
 
   return (
     <div className="relative my-5 bg-white rounded-xl text-center shadow-lg  p-4 w-[300px] mx-auto">
