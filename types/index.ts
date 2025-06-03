@@ -17,6 +17,8 @@ export interface Car {
 }
 
 export type CarData = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  rates: any;
   brand: number;
   name: string;
   name_details: string;
