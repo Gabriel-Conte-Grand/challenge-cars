@@ -47,7 +47,6 @@ export const Filters: FC = () => {
       filterId: "category",
       optionsType: "checkbox",
       filterOptions: [
-        // { name: "Todas las categorias", value: true },
         { name: "Económico", value: false, code: "Económico" },
         { name: "Compacto", value: false, code: "Compacto" },
         { name: "Intermedio", value: false, code: "Intermedio" },
@@ -79,9 +78,9 @@ export const Filters: FC = () => {
     },
   ];
 
-  const { applyFilters } = useCarStore();
+  const { applyFilters, priceBounds, handlePriceBoundChange } = useCarStore();
 
-  const [values, setValues] = useState([2000000, 7000000]);
+  const [values, setValues] = useState([priceBounds[0], priceBounds[1]]);
 
   const [activeFilters, setActiveFilters] = useState<activeFilters>({
     company: [],
@@ -89,6 +88,18 @@ export const Filters: FC = () => {
     luggage: [],
     passangers: [],
   });
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      handlePriceBoundChange(values[0], values[1]);
+      applyFilters(activeFilters);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeoutId); // limpia el timeout si values cambia antes del segundo
+    };
+  }, [values, handlePriceBoundChange]);
+
   useEffect(() => {
     applyFilters(activeFilters);
   }, [activeFilters, applyFilters]);

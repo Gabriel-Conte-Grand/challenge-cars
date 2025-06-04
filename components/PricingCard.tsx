@@ -2,32 +2,39 @@ import React from "react";
 import infoIcon from "../public/icons_logos/info-icon.svg";
 import arrowIcon from "../public/icons_logos/arrow-icon.svg";
 import Image from "next/image";
+import { RateTooltip } from "./RateTooltip";
 
 type Props = {
   priceCOP: number;
   priceUSD: number;
+  handleCarSelection: () => void;
 };
 
-export const PricingCard = ({ priceCOP, priceUSD }: Props) => {
-  
-  
-// const formattedCOP = Nan ? new Intl.NumberFormat("es-CO", {
-//   style: "currency",
-//   currency: "COP",
-//   maximumFractionDigits: 0, // si querés sin decimales
-// }).format(priceCOP);
+export const PricingCard = ({
+  priceCOP,
+  priceUSD,
+  handleCarSelection,
+}: Props) => {
+  const numberOfDays = 3;
+  const formattedPriceCOP = (priceCOP * numberOfDays).toLocaleString("es-CO", {
+    style: "currency",
+    currency: "COP",
+  });
 
-// const formattedUSD =  new Intl.NumberFormat("en-US", {
-//   style: "currency",
-//   currency: "USD",
-// }).format(priceUSD);
+  const formattedPriceUSD = (priceUSD * numberOfDays).toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
 
   return (
     <div className="relative my-5 bg-white rounded-xl text-center shadow-lg  p-4 w-[300px] mx-auto">
       <div className="text-center flex flex-col gap-2">
         <div className="flex gap-2 items-center justify-center">
           <h3 className="font-semibold text-[#242B35]">Inclusive Light</h3>
-          <Image src={infoIcon} alt="info icon" />
+          <div className="group relative">
+            <Image src={infoIcon} alt="info icon" className="cursor-pointer" />
+            <RateTooltip />
+          </div>
         </div>
         <p className="text-sm text-gray-500">Precio por 3 días de renta</p>
       </div>
@@ -38,7 +45,7 @@ export const PricingCard = ({ priceCOP, priceUSD }: Props) => {
         </button>
 
         <div className="text-xl font-bold  text-[#3179BD]">
-          <span className="text-base">COP</span> {priceCOP}
+          <span className="text-base">COP</span> {formattedPriceCOP}
         </div>
 
         <button className=" cursor-pointer hover:shadow-lg absolute right-[-28px] bg-white rounded-full shadow w-10 h-10 flex items-center justify-center">
@@ -46,32 +53,15 @@ export const PricingCard = ({ priceCOP, priceUSD }: Props) => {
         </button>
       </div>
       <div className=" w-full text-[#8292AA] text-sm  mx-auto">
-        (USD {priceUSD})
+        (USD {formattedPriceUSD})
       </div>
 
-      <button className="mt-4 cursor-pointer hover:opacity-90  w-full bg-[#3179BD] font-bold text-white py-2 rounded-lg">
+      <button
+        onClick={handleCarSelection}
+        className="mt-4 cursor-pointer hover:opacity-90  w-full bg-[#3179BD] font-bold text-white py-2 rounded-lg"
+      >
         Seleccionar
       </button>
     </div>
   );
 };
-
-{
-  /* <div classNameName="">
-  <span classNameName="absolute  right-60">
-    <div classNameName="p-2 border  shadow border-[#C8CED9] rounded-full">
-      <Image src={arrowIcon} alt="" classNameName="" />
-    </div>
-  </span>
-  <span classNameName="absolute  left-60">
-    <div classNameName="p-2 border  shadow border-[#C8CED9] rounded-full">
-      <Image src={arrowIcon} alt="" classNameName="rotate-180" />
-    </div>
-  </span>
-  <div classNameName="w-full text-center items-center">
-    <span classNameName="text-center font-bold text-sm  text-[#3179BD]">
-      COP <span classNameName="text-xl"> 1,895.160</span>
-    </span>
-  </div>
-</div>; */
-}

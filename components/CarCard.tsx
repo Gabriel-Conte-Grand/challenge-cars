@@ -7,8 +7,10 @@ import starSolid from "../public/icons_logos/star-solid-icon.svg";
 import emptyStar from "../public/icons_logos/star-outlined-icon.svg";
 import featuredIcon from "../public/icons_logos/featured-icon.svg";
 import checkLogo from "../public/icons_logos/check-logo.svg";
+import cartIcon from "../public/icons_logos/cart-icon.svg";
 import { PricingCard } from "./PricingCard";
 import { Features } from "../types/index";
+import { useCarStore } from "@/store/cars";
 
 type CarType = {
   vehicleGroup: string;
@@ -21,6 +23,7 @@ type CarType = {
   priceCOP: number;
   priceUSD: number;
   stars: number;
+  handleCarSelection: () => void;
 };
 
 type featuresIcons = {
@@ -39,10 +42,9 @@ export const CarCard = ({
   priceCOP,
   priceUSD,
   stars,
+  handleCarSelection,
 }: CarType) => {
   const imageAddress = thumb?.split("/").at(-1);
-
-  console.log(thumb);
 
   const featuresIcons: featuresIcons[] = [
     {
@@ -71,7 +73,12 @@ export const CarCard = ({
     },
   ];
 
-  const isSelected = true;
+  const { selectedCars } = useCarStore();
+
+  const indexOfSelected = selectedCars.findIndex(
+    (car) =>
+      car.picture_url.normal === thumb || car.picture_url.featured === thumb
+  );
 
   const retailerLogo =
     retailerId === 1 ? avisLogo : retailerId === 2 ? budgerLogo : paylessLogo;
@@ -142,20 +149,25 @@ export const CarCard = ({
             })}
           </ul>
           <hr className="border-1  border-[#E0E2EC]" />
-          {isSelected ? (
+          {indexOfSelected !== -1 ? (
             <span className="flex text-sm font-medium gap-2 text-[#26B489]  items-center">
               <Image src={checkLogo} alt="done" /> Vehículo agregado a su
-              cotización (1 de 5)
+              cotización ({indexOfSelected + 1} de 5)
             </span>
           ) : (
-            <span>
-              <img /> Seleccionar este vehículo para cotizar
+            <span className="flex text-sm font-medium gap-2 text-[#3179BD]  items-center">
+              <Image src={cartIcon} alt="done" /> Seleccionar este vehículo para
+              cotizar
             </span>
           )}
         </div>
 
         <hr className="h-auto border my-1 border-dashed border-[#C8CED9]" />
-        <PricingCard priceCOP={priceCOP} priceUSD={priceUSD} />
+        <PricingCard
+          priceCOP={priceCOP}
+          priceUSD={priceUSD}
+          handleCarSelection={handleCarSelection}
+        />
       </div>
     </div>
   );

@@ -9,6 +9,8 @@ import { SearchResults } from "@/components/SearchResults";
 import { useCarStore } from "@/store/cars";
 import { CarData } from "@/types";
 import { useEffect } from "react";
+import { SelectedCarBanner } from "@/components/SelectedCarBanner";
+import { Newsletter } from "@/components/Newsletter";
 
 export default function Home() {
   const carsList = [
@@ -17,11 +19,24 @@ export default function Home() {
     ...cars.cars.Payless,
   ] as CarData[];
 
-  const { filteredCars, loadCars } = useCarStore();
+  const {
+    filteredCars,
+    loadCars,
+    order,
+    toggleOrder,
+    carOfInterest,
+    selectCarOfInterest,
+    deleteCarFromSelected,
+    addCarToSelected,
+  } = useCarStore();
 
   useEffect(() => {
     loadCars(carsList);
   }, []);
+
+  const handleCarSelection = (car: CarData) => {
+    selectCarOfInterest(car);
+  };
 
   return (
     <div className="">
@@ -35,7 +50,11 @@ export default function Home() {
         <div className="flex mx-auto w-full max-w-[1300px] gap-8">
           <Filters />
           <div className="w-full">
-            <SearchResults quantity={filteredCars.length} />
+            <SearchResults
+              quantity={filteredCars.length}
+              order={order}
+              toggleOrder={toggleOrder}
+            />
             <div className="flex flex-col gap-8">
               {filteredCars?.map((car, idx) => (
                 <CarCard
@@ -56,12 +75,22 @@ export default function Home() {
                     car.rates?.F2?.pricing.USD.total_charge.total
                       .estimated_total_amount
                   }
+                  handleCarSelection={() => handleCarSelection(car)}
                 />
               ))}
             </div>
           </div>
         </div>
+        {carOfInterest === null ? null : (
+          <SelectedCarBanner
+            deleteCarFromSelected={deleteCarFromSelected}
+            carOfInterest={carOfInterest}
+            addCarToSelected={addCarToSelected}
+          />
+        )}
       </section>
+
+      <Newsletter />
     </div>
   );
 }
