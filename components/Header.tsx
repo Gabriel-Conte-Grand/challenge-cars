@@ -1,3 +1,4 @@
+"use client";
 import React, { FC } from "react";
 import unionImage from "../public/icons_logos/logo-udr.svg";
 import spaFlag from "../public/icons_logos/spa-flag.svg";
