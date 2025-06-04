@@ -64,12 +64,15 @@ export const useCarStore = create<Store>()((set) => ({
         const dailyPrice =
           car.rates?.F2?.pricing.COP.total_charge.total.estimated_total_amount;
 
-        if (!dailyPrice) return false;
+        if (!dailyPrice) return true;
 
         const totalPrice = dailyPrice * 3;
 
         const minPrice = state.priceBounds[0];
         const maxPrice = state.priceBounds[1];
+        if (minPrice === 20000000 && maxPrice === 7000000) {
+          return true; // If no price bounds are set, return all cars
+        }
 
         return totalPrice >= minPrice && totalPrice <= maxPrice;
       });
